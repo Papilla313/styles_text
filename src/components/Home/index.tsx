@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { View } from "react-native";
 import { VanillaView } from "../VanillaView";
 import ReactNativeView from "../ReactNativeView";
-// import NativeWindView from "../NativeWindView";
+import NativeWindView from "../NativeWindView";
 
 export const Home = () => {
     const location = useLocation();
@@ -14,7 +14,7 @@ export const Home = () => {
         return {
             default: VanillaView,
             ReactNativeView: ReactNativeView,
-            // NativeWindView: NativeWindView,
+            NativeWindView: NativeWindView,
         }
     }, [])
 

@@ -18,6 +18,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import "./global.css"
 
 function App(): React.JSX.Element {
 
