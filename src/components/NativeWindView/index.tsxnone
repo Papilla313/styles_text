@@ -1,0 +1,151 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, Image, Animated, Pressable } from 'react-native';
+import 'nativewind'; // Ensure nativewind is installed and set up correctly in your project
+
+// EditableSpan Component
+const EditableSpan = ({ maxLength, className, extraStyles }: { maxLength: number, className: string, extraStyles?: any }) => {
+    const [value, setValue] = useState<string>("");
+    const [isFocused, setIsFocused] = useState<boolean>(false);
+    const [extraClass, setExtraClass] = useState<string>("");
+
+    useEffect(() => {
+        if (className === "Number") setExtraClass("absolute w-4/5 max-w-[80%] -translate-x-1/2 -translate-y-[70%] top-1/2 left-1/2");
+        if (className === "Date") setExtraClass("absolute w-2/5 max-w-[40%] bottom-10 left-10");
+        if (className === "SecurityNumber") setExtraClass("absolute w-2/5 max-w-[40%] bottom-10 right-10 rotate-y-180");
+    }, [className]);
+
+    return (
+        <Animated.View style={[extraStyles]} className={`relative ${extraClass}`}>
+            <TextInput
+                className={`border border-white text-blue-500 font-bold text-lg p-2 rounded-md w-full ${isFocused ? 'border-blue-500' : ''} 
+                    ${!!value.length ? 'text-white' : ''} ${!!value.length && value.length !== maxLength ? 'text-red-500' : ''}`}
+                placeholder={"X".repeat(maxLength)}
+                onChangeText={(text) => setValue(text)}
+                onFocus={() => setIsFocused(true)} // Set focus state
+                onBlur={() => setIsFocused(false)} // Reset focus state
+                maxLength={maxLength}
+                keyboardType="numeric"
+            />
+        </Animated.View>
+    );
+};
+
+// SectionCollapse Component (Accordion-like)
+const SectionCollapse = ({ title, children, setIsActive, isActive }: { title: string, children: React.ReactNode, isActive: string, setIsActive: (value: string) => void }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [growAnim] = useState(new Animated.Value(0));
+    const [rotateAnim] = useState(new Animated.Value(0));
+
+    const toggleCollapse = () => {
+        setIsOpen(!isOpen);
+        Animated.timing(growAnim, {
+            toValue: !isOpen ? 350 : 0,
+            duration: 250,
+            useNativeDriver: true,
+        }).start();
+        Animated.timing(rotateAnim, {
+            toValue: isOpen ? 0 : 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const rotateInterpolate = rotateAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '-90deg'],
+    });
+
+    return (
+        <View className={`w-4/5 mx-auto rounded-lg bg-white shadow-lg ${isOpen ? 'opacity-100' : ''}`}>
+            <Pressable
+                onPress={toggleCollapse}
+                className={`flex flex-row justify-between p-3 bg-gray-200 rounded-md ${isActive === "collapse" ? 'opacity-70 bg-black' : ''}`}
+                onPressIn={() => setIsActive("collapse")}
+                onPressOut={() => setIsActive("")}
+            >
+                <Text className="text-lg font-bold">{title}</Text>
+                <Animated.Text style={{ transform: [{ rotateZ: rotateInterpolate }] }} className="text-black">◀</Animated.Text>
+            </Pressable>
+            <Animated.View
+                style={{ maxHeight: growAnim }}
+                className="overflow-hidden bg-white"
+            >
+                {children}
+            </Animated.View>
+        </View>
+    );
+};
+
+// ReactNativeView Component (Main View)
+const ReactNativeView = ({ navBarOptions, navBarAction }: { navBarOptions: string[], navBarAction?: (option: string) => void }) => {
+    const [displayBurger, setDisplayBurger] = useState(false);
+    const [slideAnim] = useState(new Animated.Value(0));
+    const [heightAnim] = useState(new Animated.Value(0));
+    const [rotateAnim] = useState(new Animated.Value(0));
+    const [scaleAnim] = useState(new Animated.Value(1));
+    const [opacityAnim] = useState(new Animated.ValueXY({ x: 0, y: 1 }));
+    const [isActive, setIsActive] = useState("");
+
+    const toggleBurgerMenu = () => {
+        setDisplayBurger(!displayBurger);
+        Animated.timing(slideAnim, {
+            toValue: displayBurger ? 0 : 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const rotateInterpolate = rotateAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '-90deg'],
+    });
+
+    return (
+        <View>
+            {/* Navigation Bar */}
+            <View className="flex-row bg-blue-500 p-3 shadow-lg z-10">
+                <View className="ml-auto relative">
+                    <Pressable
+                        className={`flex flex-row items-center bg-blue-500 rounded-md p-3 ${isActive === "burger" ? 'opacity-70 bg-gray-200' : ''}`}
+                        onPress={toggleBurgerMenu}
+                        onPressIn={() => setIsActive("burger")}
+                        onPressOut={() => setIsActive("")}
+                    >
+                        <Text className="text-white text-lg font-bold mr-2">Menu</Text>
+                        <Animated.Text style={{ transform: [{ rotateZ: rotateInterpolate }] }} className="text-white">◀</Animated.Text>
+                    </Pressable>
+                    <Animated.View
+                        style={{
+                            opacity: slideAnim,
+                            maxHeight: heightAnim,
+                        }}
+                        className="absolute top-10 right-0 w-72 bg-blue-700 rounded-lg p-4"
+                    >
+                        {navBarOptions.map((option, index) => (
+                            <Pressable
+                                key={index}
+                                className={`bg-blue-700 p-3 rounded-md ${isActive === "collapse" ? 'opacity-70 bg-gray-200' : ''}`}
+                                onPress={() => navBarAction?.(option)}
+                            >
+                                <Text className="text-white font-bold">{option}</Text>
+                            </Pressable>
+                        ))}
+                    </Animated.View>
+                </View>
+            </View>
+
+            {/* Profile Section */}
+            <View className="flex-col items-center mx-auto my-8 p-8 w-4/5 rounded-lg bg-white shadow-lg">
+                <Pressable className="relative mb-6">
+                    <Animated.View className="relative w-36 h-36 rounded-full shadow-md">
+                        <Image className="w-full h-full rounded-full" source={{ uri: '/img/avatar.jpeg' }} />
+                    </Animated.View>
+                </Pressable>
+                <Text className="text-xl font-bold text-blue-500 mb-6">John Dog</Text>
+                <Text className="text-lg text-gray-700">My dreams wallet.</Text>
+            </View>
+        </View>
+    );
+};
+
+export default ReactNativeView;

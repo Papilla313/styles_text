@@ -1,0 +1,318 @@
+:root {
+    --primary-color: #3B82F6;       
+    --darker-primary-color: #2c6dd9;       
+    --secondary-color: #4CAF50;    
+    --background-color: #f9f9f9;   
+    --input-border-color: #e0e0e0;  
+    --input-focus-color: #4a90e2; 
+    --text-color: #333333;        
+    --unit: 8px;
+}
+
+button:active {
+    opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --unit: 6px;
+    }
+}
+
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    font-size: calc(var(--unit)*2);
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Navigation bar */
+.NavigationBar {
+    display: flex;
+    background-color: var(--primary-color);
+    padding: calc(var(--unit) * 1.5);
+    box-shadow: 0 calc(var(--unit) * 0.25) calc(var(--unit) * 0.5) rgba(0, 0, 0, 0.1);
+}
+
+.BurgerMenu {
+    margin-left: auto;
+    position: relative;
+}
+
+.BurgerButton {
+    display: flex;
+    color: #fff;
+    gap: var(--unit);
+    align-items: center;
+    background-color: var(--primary-color);
+    border: none;
+    padding: calc(var(--unit) * 1.5);
+    cursor: pointer;
+    border-radius: var(--unit);
+    transition: background-color 0.3s ease;
+}
+
+.BurgerButton:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.BurgerMenuCollapse {
+    display: block;
+    background-color: var(--darker-primary-color);
+    position: absolute;
+    top: calc(var(--unit) * 6);
+    right: 0;
+    width: calc(var(--unit) * 30);
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, box-shadow 0.3s ease;
+    overflow: hidden;
+    border-radius: calc(var(--unit) * 0.5);
+    box-shadow: 0 calc(var(--unit) * 0.25) calc(var(--unit) * 0.5) rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    padding: calc(var(--unit) * 1.5);
+}
+
+.NavBarOptionButton {
+    width: 100%;
+    background: none;
+    background-color: var(--darker-primary-color);
+    border: none;
+    padding: calc(var(--unit) * 1.5);
+    cursor: pointer;
+    border-radius: calc(var(--unit) * 0.5);
+    color: #ffffff;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.NavBarOptionButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.ArrowIcon {
+    transition: transform 0.3s ease;
+}
+
+.ShowCollapse .ArrowIcon {
+    transform: rotate(-90deg);
+}
+
+.ShowCollapse .BurgerMenuCollapse {
+    max-height: calc(var(--unit) * 62.5);
+    opacity: 1;
+}
+
+/* Profile Section */
+.ProfileContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--unit) * 3);
+    margin: calc(var(--unit) * 3) auto;
+    padding: calc(var(--unit) * 3);
+    width: 80%;
+    border-radius: calc(var(--unit) * 1.5);
+    box-shadow: 0 calc(var(--unit) * 0.25) calc(var(--unit) * 0.5) rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.ProfileContainer h3,
+.ProfileContainer h4 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: calc(var(--unit) * 3);
+}
+
+.ProfileContainer div {
+    display: flex;
+    gap: calc(var(--unit) * 3);
+}
+
+.Avatar {
+    max-width: 460px;
+    width: 100%;
+    border-radius: 50%;
+    box-shadow: 0 calc(var(--unit) * 0.25) calc(var(--unit) * 0.5) rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.Avatar:hover{
+    transform: scale(1.05);
+}
+
+/* Accordion Section */
+.Accordion {
+    width: 80%;
+    margin: 0 auto;
+    border-radius: calc(var(--unit) * 1.5);
+    background-color: #fff;
+    box-shadow: 0 calc(var(--unit) * 0.25) calc(var(--unit) * 0.5) rgba(0, 0, 0, 0.1);
+}
+
+.AccordionHeaderButton {
+    display: flex;
+    width: 100%;
+    padding: calc(var(--unit) * 1.5);
+    justify-content: space-between;
+    background-color: var(--background-color);
+    border: none;
+    border-radius: calc(var(--unit) * 0.5);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.AccordionHeaderButton:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.SectionCollapse {
+    padding: 0 calc(var(--unit) * 1.5);
+    background-color: #fff;
+    max-height: 0;
+    transition: max-height 0.2s ease-in-out, padding 0.2s ease-in-out;
+    overflow: hidden;
+}
+
+.ShowCollapse .SectionCollapse {
+    max-height: calc(var(--unit) * 62.5);
+    padding: calc(var(--unit) * 1.5);
+}
+
+.ShowCollapse .SectionCollapse > div {
+    opacity: 1;
+}
+
+/* Editable Span (Input Fields) */
+.EditableSpanContainer input {
+    background-color: transparent;
+    border: calc(var(--unit) * 0.25) solid var(--input-border-color);
+    border-radius: calc(var(--unit) * 0.5);
+    padding: calc(var(--unit) * 1.5);
+    font-size: calc(var(--unit) * 2);
+    color: var(--text-color);
+    width: 100%;
+    transition: border-color 0.3s ease;
+    text-transform: uppercase;
+}
+
+.EditableSpanContainer input::placeholder {
+    color: var(--primary-color);
+}
+
+.EditableSpanContainer input:focus {
+    border-color: var(--input-focus-color);
+    outline: none;
+}
+
+.EditableSpanContainer input:disabled {
+    background-color: #f0f0f0;
+    color: #999;
+}
+
+/* Wallet Section */
+.WalletContainer {
+  
+}
+
+.FlipCardButton {
+    display: flex;
+}
+
+.FlipCardButton button {
+    display: flex;
+    margin: calc(var(--unit) * 3) auto;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: calc(var(--unit) * 0.5);
+    padding: calc(var(--unit) * 2) calc(var(--unit) * 3);
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: calc(var(--unit) * 3) auto 0 auto;
+}
+
+.FlipCardButton button:hover {
+    background-color: #45a049; 
+    transform: scale(1.05);
+}
+
+.CreditCard {
+    max-width: calc(var(--unit) * 40);
+    aspect-ratio: 1.5;
+    transition: transform 0.6s ease, box-shadow 0.3s ease;
+    background: linear-gradient(135deg, #4a90e2, #9013fe);
+    border-radius: calc(var(--unit) * 1.5);
+    box-shadow: 0 calc(var(--unit) * 0.25) calc(var(--unit) * 0.5) rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+    position: relative;
+}
+
+.CreditCard:hover {
+    box-shadow: 0 calc(var(--unit) * 0.5) calc(var(--unit) * 1) rgba(0, 0, 0, 0.3);
+}
+
+.WalletContainer.Flip .CreditCard {
+    transform: rotateY(180deg);
+}
+
+.CreditCard .Number,
+.CreditCard .Date,
+.CreditCard .SecurityNumber {
+    position: absolute;
+    color: #fff;
+    font-weight: bold;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.CreditCard .Date,
+.CreditCard .SecurityNumber {
+    max-width: 40%;
+}
+
+.CreditCard .Number {
+    width: 80%;
+    top: 50%;
+    font-size: calc(var(--unit) * 2.25);
+    left: 50%;
+    transform: translateX(-50%) translateY(-70%);
+}
+
+.CreditCard .Number input {
+    text-align: center;
+}
+
+.CreditCard .Date {
+    bottom: 10%;
+    left: 10%;
+}
+
+.CreditCard .SecurityNumber {
+    bottom: 10%;
+    right: 10%;
+    transform: rotateY(180deg);
+}
+
+.WalletContainer .Number,
+.WalletContainer .Date,
+.WalletContainer.Flip .SecurityNumber {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.WalletContainer.Flip .Number,
+.WalletContainer.Flip .Date,
+.WalletContainer .SecurityNumber {
+    opacity: 0;
+    pointer-events: none;
+}
