@@ -1,6 +1,7 @@
-import React, { ReactNode, useState } from "react"
+import React, { ReactNode, useEffect, useState } from "react"
 import { DefaultViewProps } from "../../Types"
 import "./styles.css";
+import { useAssets } from "expo-asset";
 
 const SectionCollapse = ({ title, children }: { title: string, children: ReactNode }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +40,7 @@ const EditableSpan = ({ className = "", maxLength = 10 }: { className?: string, 
 }
 
 export const VanillaView = ({ navBarOptions, navBarAction }: DefaultViewProps) => {
-
+    const [assets,] = useAssets([require('../../../assets/images/avatar.jpeg')]);
     const [displayBurger, setDisplayBurger] = useState(false)
     const [flipCard, setFlipCard] = useState(false)
 
@@ -73,7 +74,7 @@ export const VanillaView = ({ navBarOptions, navBarAction }: DefaultViewProps) =
 
             {/* Profile */}
             <div className="ProfileContainer">
-                <img className="Avatar" src="/img/avatar.jpeg" alt="Avatar" />
+                <img className="Avatar" src={assets?.[0].uri||""} alt="Avatar" />
                 <h3>John Dog</h3>
                 <span>
                     My dreams wallet.

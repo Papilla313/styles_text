@@ -11,23 +11,13 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
-import { Home } from './components/Home';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import "./global.css"
+import "../global.css"
+import NativeWindView from './components/NativeWindView';
 
 function App(): React.JSX.Element {
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Home/>,
-    },
-  ]);
 
   return (
     <SafeAreaView style={{...styles.mainContainer}}>
@@ -40,7 +30,7 @@ function App(): React.JSX.Element {
         style={{...styles.mainContainer}}>
         <View
           style={{...styles.mainContainer}}>
-            <RouterProvider router={router} />
+            <NativeWindView navBarOptions={["Default A", "Default B"]}></NativeWindView>
         </View>
       </ScrollView>
       

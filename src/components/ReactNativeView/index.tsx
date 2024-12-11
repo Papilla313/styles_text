@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Image, Animated, Pressable, StyleProp, ViewStyle, Easing, Platform } from 'react-native';
 import { styles } from './styles';
+import { useAssets } from 'expo-asset';
 
 // EditableSpan Component
 const EditableSpan = ({ maxLength, className, extraStyles }: { maxLength: number, className: string, extraStyles?:StyleProp<ViewStyle> }) => {
@@ -92,6 +93,7 @@ const SectionCollapse = ({ title, children, setIsActive, isActive }: { title: st
 
 // ReactNativeView Component (Main View)
 const ReactNativeView = ({ navBarOptions, navBarAction }: { navBarOptions: string[], navBarAction?: (option: string) => void }) => {
+    const [assets,] = useAssets([require('../../../assets/images/avatar.jpeg')]);
     const [displayBurger, setDisplayBurger] = useState(false);
     const [flipCard, setFlipCard] = useState(false);
     const [slideAnim] = useState(new Animated.Value(0));
@@ -223,7 +225,7 @@ const ReactNativeView = ({ navBarOptions, navBarAction }: { navBarOptions: strin
                     onPress={() => toggleScale()}
                 >
                     <Animated.View style={[styles.avatar, styles.avatarAnimated, { transform: [{ scale: scaleAnim }] }]} >
-                        <Image style={styles.avatarImg} source={{ uri: '/img/avatar.jpeg' }} />
+                        <Image style={styles.avatarImg} source={{ uri: assets?.[0].uri||"" }} />
                     </Animated.View>
                 </Pressable>
                 <Text style={styles.profileName}>John Dog</Text>

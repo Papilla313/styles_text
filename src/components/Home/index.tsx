@@ -14,7 +14,6 @@ export const Home = () => {
         return {
             default: VanillaView,
             ReactNativeView: ReactNativeView,
-            NativeWindView: NativeWindView,
         }
     }, [])
 

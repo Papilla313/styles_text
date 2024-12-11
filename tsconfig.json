@@ -1,7 +1,3 @@
-// {
-//   "extends": "@react-native/typescript-config/tsconfig.json"
-// }
-
 {
   "compilerOptions": {
     "target": "esnext",
@@ -20,12 +16,18 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": [
+      "nativewind",
+      "react-native"
+    ]
   },
   "include": [
-    "src"
-  ],
+    "src",
+    "nativewind-env.d.ts"
+, "src/App.tsxs", "App.tsx", "nativewind-env.d..ts"  ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "extends": "expo/tsconfig.base"
 }

@@ -18,12 +18,15 @@
 import { AppRegistry } from 'react-native';
 import App from './App';  // Ensure your App.js is used
 import appConfig from './app.json';
+import { registerRootComponent } from 'expo';
 
-const { name: appName } = appConfig;  // Destructure 'name' from the default export
+// const { name: appName } = appConfig;  // Destructure 'name' from the default export
 
-AppRegistry.registerComponent(appName, () => App);
+// AppRegistry.registerComponent(appName, () => App);
 
-AppRegistry.runApplication(appName, {
-  initialProps: {},
-  rootTag: document.getElementById('app-root'), // This element will be in your index.html
-});
+// AppRegistry.runApplication(appName, {
+//   initialProps: {},
+//   rootTag: document.getElementById('app-root'), // This element will be in your index.html
+// });
+
+registerRootComponent(App);
